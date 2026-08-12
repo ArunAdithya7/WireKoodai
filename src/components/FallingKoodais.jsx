@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
+const basePath = import.meta.env.BASE_URL;
+
 const bagImages = [
-  { src: '/Bag 1.png', rotate: '-rotate-90' },
-  { src: '/Bag 2.png', rotate: '-rotate-90' },
-  { src: '/Bag 3.png', rotate: '-rotate-90' },
-  { src: '/Cust.png', rotate: '' },
+  { src: `${basePath}Bag 1.png`, rotate: '-rotate-90' },
+  { src: `${basePath}Bag 2.png`, rotate: '-rotate-90' },
+  { src: `${basePath}Bag 3.png`, rotate: '-rotate-90' },
+  { src: `${basePath}Cust.png`, rotate: '' },
 ];
 
 const FallingKoodais = () => {
