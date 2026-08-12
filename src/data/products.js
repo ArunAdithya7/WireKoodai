@@ -6,7 +6,7 @@ export const products = [
     name: 'Classic Kattam Checkered Wire Koodai',
     tag: 'Bestseller',
     description: 'Traditional multi-color plaid weaving. Water-resistant, sturdy and perfect for everyday grocery runs or beach outings.',
-    image: `${basePath}Bag 1.png`,
+    image: `${basePath}WB.png`,
   },
   {
     id: 'contemporary-tote',
