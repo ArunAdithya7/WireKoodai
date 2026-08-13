@@ -43,14 +43,14 @@ function App() {
             <div>
               <h4 className="font-bold text-lg mb-4">Contact Us</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>Chennai, Tamil Nadu</li>
+                <li>Tirunelveli, Tamil Nadu</li>
                 <li>mailtorani777@gmail.com</li>
                 <li>+91 88383 78398</li>
               </ul>
             </div>
           </div>
           <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-            <p>&copy; {new Date().getFullYear()} WireKoodai by Saras. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} WireKoodai by Muthulakshmi Wire Bags. All rights reserved.</p>
           </div>
         </div>
       </footer>
