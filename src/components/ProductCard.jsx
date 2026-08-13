@@ -40,14 +40,16 @@ const ProductCard = ({ product, onOpenModal }) => {
 
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-brand-beige">
           <div>
-            <p className="text-xs text-brand-brown uppercase tracking-wider mb-1">Price Range</p>
-            <p className="font-bold text-brand-charcoal">₹300 - ₹700</p>
+            <p className="text-xs text-brand-brown uppercase tracking-wider mb-1">
+              {product.isCustomizable ? 'Price Range' : 'Price'}
+            </p>
+            <p className="font-bold text-brand-charcoal">{product.priceRange}</p>
           </div>
           <button 
             onClick={() => onOpenModal(product)}
             className="px-4 py-2 bg-brand-charcoal text-white text-sm font-medium rounded hover:bg-brand-terracotta transition-colors"
           >
-            Customize & Buy
+            {product.isCustomizable ? 'Customize & Buy' : 'Buy Now'}
           </button>
         </div>
       </div>

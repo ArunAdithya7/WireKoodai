@@ -4,22 +4,40 @@ import { X, Check } from 'lucide-react';
 const ProductModal = ({ product, isOpen, onClose }) => {
   const [size, setSize] = useState('Medium');
   const [hasBase, setHasBase] = useState(true);
-  const [price, setPrice] = useState(350);
+  const [price, setPrice] = useState(0);
+
+  // Reset choices on open/product change
+  useEffect(() => {
+    if (isOpen) {
+      setSize('Medium');
+      setHasBase(true);
+    }
+  }, [isOpen, product]);
 
   // Pricing Logic
   useEffect(() => {
-    let basePrice = 350;
-    if (size === 'Small') basePrice = 250;
-    if (size === 'Large') basePrice = 450;
-    
-    const finalPrice = basePrice - (hasBase ? 0 : 50);
-    setPrice(finalPrice);
-  }, [size, hasBase]);
+    if (!product) return;
+
+    if (product.isCustomizable) {
+      let basePrice = 350;
+      if (size === 'Small') basePrice = 250;
+      if (size === 'Large') basePrice = 450;
+      
+      const finalPrice = basePrice - (hasBase ? 0 : 50);
+      setPrice(finalPrice);
+    } else {
+      setPrice(product.basePrice || 0);
+    }
+  }, [product, size, hasBase]);
 
   if (!isOpen || !product) return null;
 
   const generateWhatsAppMessage = () => {
-    const text = `Hello WireKoodai! I'd like to order:\n\n*Product:* ${product.name}\n*Size:* ${size}\n*Cardboard Base:* ${hasBase ? 'Yes' : 'No'}\n*Price:* ₹${price}\n\nPlease let me know the payment details.`;
+    let text = `Hello WireKoodai! I'd like to order:\n\n*Product:* ${product.name}\n`;
+    if (product.isCustomizable) {
+      text += `*Size:* ${size}\n*Cardboard Base:* ${hasBase ? 'Yes' : 'No'}\n`;
+    }
+    text += `*Price:* ₹${price}\n\nPlease let me know the payment details.`;
     return encodeURIComponent(text);
   };
 
@@ -62,60 +80,64 @@ const ProductModal = ({ product, isOpen, onClose }) => {
           </div>
 
           <div className="space-y-6 flex-grow">
-            {/* Step 1: Size */}
-            <div>
-              <h3 className="text-sm font-bold text-brand-charcoal uppercase tracking-wider mb-3">1. Choose Size</h3>
-              <div className="grid grid-cols-3 gap-3">
-                {['Small', 'Medium', 'Large'].map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setSize(s)}
-                    className={`py-3 px-2 rounded-md border text-center transition-all ${
-                      size === s 
-                        ? 'border-brand-terracotta bg-brand-terracotta/5 text-brand-terracotta font-semibold' 
-                        : 'border-brand-beige text-brand-brown hover:border-brand-charcoal/30'
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-              <p className="text-xs text-brand-brown mt-2">
-                {size === 'Small' && 'Ideal for Lunch Box & Small Essentials'}
-                {size === 'Medium' && 'Ideal for Everyday Shopping & Grocery'}
-                {size === 'Large' && 'Ideal for Heavy Duty Storage & Multi-roll Capacity'}
-              </p>
-            </div>
+            {product.isCustomizable && (
+              <>
+                {/* Step 1: Size */}
+                <div>
+                  <h3 className="text-sm font-bold text-brand-charcoal uppercase tracking-wider mb-3">1. Choose Size</h3>
+                  <div className="grid grid-cols-3 gap-3">
+                    {['Small', 'Medium', 'Large'].map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => setSize(s)}
+                        className={`py-3 px-2 rounded-md border text-center transition-all ${
+                          size === s 
+                            ? 'border-brand-terracotta bg-brand-terracotta/5 text-brand-terracotta font-semibold' 
+                            : 'border-brand-beige text-brand-brown hover:border-brand-charcoal/30'
+                        }`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-xs text-brand-brown mt-2">
+                    {size === 'Small' && 'Ideal for Lunch Box & Small Essentials'}
+                    {size === 'Medium' && 'Ideal for Everyday Shopping & Grocery'}
+                    {size === 'Large' && 'Ideal for Heavy Duty Storage & Multi-roll Capacity'}
+                  </p>
+                </div>
 
-            {/* Step 2: Base */}
-            <div>
-              <h3 className="text-sm font-bold text-brand-charcoal uppercase tracking-wider mb-3">2. Base Option</h3>
-              <div className="space-y-3">
-                <label className="flex items-center p-3 border rounded-md cursor-pointer hover:bg-brand-beige/30 transition-colors">
-                  <input 
-                    type="radio" 
-                    name="baseOption" 
-                    checked={hasBase} 
-                    onChange={() => setHasBase(true)}
-                    className="w-5 h-5 text-brand-terracotta accent-brand-terracotta"
-                  />
-                  <span className="ml-3 font-medium flex-1">Include Hard Cardboard Base</span>
-                  <span className="text-brand-brown text-sm">Default</span>
-                </label>
-                
-                <label className="flex items-center p-3 border rounded-md cursor-pointer hover:bg-brand-beige/30 transition-colors">
-                  <input 
-                    type="radio" 
-                    name="baseOption" 
-                    checked={!hasBase} 
-                    onChange={() => setHasBase(false)}
-                    className="w-5 h-5 text-brand-terracotta accent-brand-terracotta"
-                  />
-                  <span className="ml-3 font-medium flex-1">No Hard Cardboard Base</span>
-                  <span className="text-brand-terracotta font-medium">-₹50</span>
-                </label>
-              </div>
-            </div>
+                {/* Step 2: Base */}
+                <div>
+                  <h3 className="text-sm font-bold text-brand-charcoal uppercase tracking-wider mb-3">2. Base Option</h3>
+                  <div className="space-y-3">
+                    <label className="flex items-center p-3 border rounded-md cursor-pointer hover:bg-brand-beige/30 transition-colors">
+                      <input 
+                        type="radio" 
+                        name="baseOption" 
+                        checked={hasBase} 
+                        onChange={() => setHasBase(true)}
+                        className="w-5 h-5 text-brand-terracotta accent-brand-terracotta"
+                      />
+                      <span className="ml-3 font-medium flex-1">Include Hard Cardboard Base</span>
+                      <span className="text-brand-brown text-sm">Default</span>
+                    </label>
+                    
+                    <label className="flex items-center p-3 border rounded-md cursor-pointer hover:bg-brand-beige/30 transition-colors">
+                      <input 
+                        type="radio" 
+                        name="baseOption" 
+                        checked={!hasBase} 
+                        onChange={() => setHasBase(false)}
+                        className="w-5 h-5 text-brand-terracotta accent-brand-terracotta"
+                      />
+                      <span className="ml-3 font-medium flex-1">No Hard Cardboard Base</span>
+                      <span className="text-brand-terracotta font-medium">-₹50</span>
+                    </label>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="mt-8 pt-6 border-t border-brand-beige space-y-3">

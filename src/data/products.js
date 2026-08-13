@@ -7,6 +7,9 @@ export const products = [
     tag: 'Bestseller',
     description: 'Traditional multi-color plaid weaving. Water-resistant, sturdy and perfect for everyday grocery runs or beach outings.',
     image: `${basePath}WB.png`,
+    priceRange: '₹250 - ₹450',
+    basePrice: 350,
+    isCustomizable: true,
   },
   {
     id: 'contemporary-tote',
@@ -14,6 +17,9 @@ export const products = [
     tag: 'Minimalist',
     description: 'Clean modern dual-block design. Durable non-woven border finish with comfortable wide handles.',
     image: `${basePath}Bag 2.png`,
+    priceRange: '₹100',
+    basePrice: 100,
+    isCustomizable: false,
   },
   {
     id: 'geometrical-craft',
@@ -21,6 +27,9 @@ export const products = [
     tag: 'Unique Weave',
     description: 'Fine patterned weave design featuring a central medallion emblem for a distinct visual look.',
     image: `${basePath}Bag 1.png`,
+    priceRange: '₹50',
+    basePrice: 50,
+    isCustomizable: false,
   },
   {
     id: 'earthy-textured',
@@ -28,6 +37,9 @@ export const products = [
     tag: 'Natural Look',
     description: 'Earthy brown and beige textured weave with reinforced border framing for heavy-duty storage.',
     image: `${basePath}Bag 3.png`,
+    priceRange: '₹80',
+    basePrice: 80,
+    isCustomizable: false,
   },
   {
     id: 'custom-design',
@@ -36,5 +48,8 @@ export const products = [
     description: 'Pick your own weave patterns and preferred colors. Handcrafted specifically for your unique style.',
     image: `${basePath}Cust.png`,
     isCustom: true,
+    priceRange: '₹250 - ₹450',
+    basePrice: 350,
+    isCustomizable: true,
   }
 ];
